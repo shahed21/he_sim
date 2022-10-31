@@ -1,0 +1,20 @@
+{
+  "name": "@shahed21/he_sim",
+  "version": "1.0.0",
+  "description": "Hawk Eye Simulator",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "author": "Shahed Rahim",
+  "license": "ISC",
+  "keywords": [
+    "Hawk",
+    "Eye",
+    "Simulation"
+  ],
+  "dependencies": {
+    "@shahed21/uav_params": "file:../uav_params",
+    "assert": "^2.0.0"
+  }
+}
