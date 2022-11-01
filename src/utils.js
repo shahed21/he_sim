@@ -11,9 +11,11 @@ function utils_calculateRhoVector(J_vector, Rho_vector) {
 }
 
 function utils_quat_to_euler(quat, euler) {
-    euler['0'] = atan2((2*(((quat['0'])*(quat['1']))+((quat['2'])*(quat['3'])))),(((quat['0'])*(quat['0']))+((quat['3'])*(quat['3']))-((quat['1'])*(quat['1']))-((quat['2'])*(quat['2']))));
-    euler['1'] = asin(2(((quat['0'])*(quat['2']))-((quat['1'])*(quat['3']))));
-    euler['2'] = atan2((2*(((quat['0'])*(quat['3']))+((quat['2'])*(quat['1'])))),(((quat['0'])*(quat['0']))+((quat['1'])*(quat['1']))-((quat['3'])*(quat['3']))-((quat['2'])*(quat['2']))));
+    // euler['0'] = Math.atan2((2*(((quat['0'])*(quat['1']))+((quat['2'])*(quat['3'])))),(((quat['0'])*(quat['0']))+((quat['3'])*(quat['3']))-((quat['1'])*(quat['1']))-((quat['2'])*(quat['2']))));
+    euler['0'] = Math.atan2((2*(((quat['0'])*(quat['1']))+((quat['2'])*(quat['3'])))),(1 - (2 * (((quat['1'])*(quat['1']))+((quat['2'])*(quat['2']))))));
+    euler['1'] = Math.asin(2*(((quat['0'])*(quat['2']))-((quat['1'])*(quat['3']))));
+    euler['2'] = Math.atan2((2*(((quat['0'])*(quat['3']))+((quat['2'])*(quat['1'])))),(1 - (2 * (((quat['3'])*(quat['3']))+((quat['2'])*(quat['2']))))));
+    // euler['2'] = Math.atan2((2*(((quat['0'])*(quat['3']))+((quat['2'])*(quat['1'])))),(((quat['0'])*(quat['0']))+((quat['1'])*(quat['1']))-((quat['3'])*(quat['3']))-((quat['2'])*(quat['2']))));
 }
 
 function utils_euler_to_quat(euler, quat) {
@@ -21,10 +23,10 @@ function utils_euler_to_quat(euler, quat) {
     theta_2 = (euler['1'])/2;
     psi_2 = (euler['2'])/2;
 
-    quat['0'] = (cos(psi_2))*(cos(theta_2))*(cos(phi_2)) + (sin(psi_2))*(sin(theta_2))*(sin(phi_2));
-    quat['1'] = (cos(psi_2))*(cos(theta_2))*(sin(phi_2)) + (sin(psi_2))*(sin(theta_2))*(cos(phi_2));
-    quat['2'] = (cos(psi_2))*(sin(theta_2))*(cos(phi_2)) + (sin(psi_2))*(cos(theta_2))*(sin(phi_2));
-    quat['3'] = (sin(psi_2))*(cos(theta_2))*(cos(phi_2)) + (cos(psi_2))*(sin(theta_2))*(sin(phi_2));
+    quat['0'] = (Math.cos(psi_2))*(Math.cos(theta_2))*(Math.cos(phi_2)) + (Math.sin(psi_2))*(Math.sin(theta_2))*(Math.sin(phi_2));
+    quat['1'] = (Math.cos(psi_2))*(Math.cos(theta_2))*(Math.sin(phi_2)) + (Math.sin(psi_2))*(Math.sin(theta_2))*(Math.cos(phi_2));
+    quat['2'] = (Math.cos(psi_2))*(Math.sin(theta_2))*(Math.cos(phi_2)) + (Math.sin(psi_2))*(Math.cos(theta_2))*(Math.sin(phi_2));
+    quat['3'] = (Math.sin(psi_2))*(Math.cos(theta_2))*(Math.cos(phi_2)) + (Math.cos(psi_2))*(Math.sin(theta_2))*(Math.sin(phi_2));
 }
 
 function utils_quat_vec_frame_rotation_xyz_to_ned(quat, vec_xyz, vec_ned) {
