@@ -43,6 +43,7 @@ function he_sim_forces_torques(
     torque_lmn //system output
 ) {
     const uav_model = uav_param_config.uavs[(airframe_model_index)];
+    const kientic_force = (0.5) * (rho) * Math.pow( (V_a), 2) * (uav_model.S);
     const weight_xyz = {};
     const weight_ned = {};
     weight_ned['n'] = 0;
@@ -52,12 +53,27 @@ function he_sim_forces_torques(
 
     prop_force_component_x = (0.5) * (rho) * (uav_model.S_prop) * (uav_model.C_arr.prop) * 
         ( (Math.pow(( (uav_model.k_motor) * (delta_vector.throttle) ), 2)) - (Math.pow((V_a), 2)) );
-    long_aero_force_component_x = (0.5) * (rho) * Math.pow( (V_a), 2) * (uav_model.S) * 
+    
+    long_aero_force_component_x = kientic_force * 
         (
             (utils.utils_C_X(alpha, uav_model.C_arr)) + 
             ((utils.utils_C_X_q(alpha, C_arr))*(uav_model.c) * (ang_vel_pqr.q)/(2 * (V_a))) +
             ((delta_vector.elevator) * (utils.utils_C_X_delta_e(alpha, uav_model.C_arr)))
         );
+
+    force_xyz.x = weight_xyz.x + long_aero_force_component_x + prop_force_component_x;
+
+    long_aero_force_component_y = kientic_force * 
+    (
+        (uav_model.C_arr.Y_0) +
+        ((uav_model.C_arr.Y_beta) * (beta)) +
+        ((uav_model.C_arr.Y_p) * (ang_vel_pqr.p) * (uav_model.b) / (2 * (V_a))) +
+        ((uav_model.C_arr.Y_r) * (ang_vel_pqr.r) * (uav_model.b) / (2 * (V_a))) +
+        ((uav_model.C_arr.Y_delta_r) * delta_vector.rudder)
+    );
+
+    force_xyz.y = weight_xyz.y + long_aero_force_component_y;
+    
 }
 
 module.exports = 
