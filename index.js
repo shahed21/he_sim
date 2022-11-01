@@ -7,12 +7,12 @@ const {
     utils_C_X,
     utils_C_X_q,
     utils_C_X_delta_e
-} = require('./utils');
+} = require('./src/utils');
 
 const {
     he_sim_nlom,
     he_sim_forces_torques
-} = require('./he_sim');
+} = require('./src/he_sim');
 
 module.exports = {
     utils_calculateRhoVector,
