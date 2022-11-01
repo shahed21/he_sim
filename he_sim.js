@@ -61,7 +61,7 @@ function he_sim_forces_torques(
             ((delta_vector.elevator) * (utils.utils_C_X_delta_e(alpha, uav_model.C_arr)))
         );
 
-    force_xyz.x = weight_xyz.x + long_aero_force_component_x + prop_force_component_x;
+    force_xyz.x = (weight_xyz.x) + (long_aero_force_component_x) + (prop_force_component_x);
 
     long_aero_force_component_y = kientic_force * 
     (
@@ -69,7 +69,7 @@ function he_sim_forces_torques(
         ((uav_model.C_arr.Y_beta) * (beta)) +
         ((uav_model.C_arr.Y_p) * (ang_vel_pqr.p) * (uav_model.b) / (2 * (V_a))) +
         ((uav_model.C_arr.Y_r) * (ang_vel_pqr.r) * (uav_model.b) / (2 * (V_a))) +
-        ((uav_model.C_arr.Y_delta_r) * delta_vector.rudder)
+        ((uav_model.C_arr.Y_delta_r) * (delta_vector.rudder))
     );
 
     force_xyz.y = weight_xyz.y + long_aero_force_component_y;
