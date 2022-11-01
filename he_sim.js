@@ -1,4 +1,5 @@
 const {uav_param_config, g, rho} = require('@shahed21/uav_params');
+const utils = require('./utils');
 
 function he_sim_nlom(
     force_xyz, //user input
@@ -14,7 +15,7 @@ function he_sim_nlom(
     quat_dot, // system output
     ang_acc_pqr //system output
 ) {
-    he_sim_utils_quat_vec_frame_rotation_ned_to_xyz(quat, vel_uvw, vel_ned);
+    utils.utils_quat_vec_frame_rotation_ned_to_xyz(quat, vel_uvw, vel_ned);
 
     acc_uvw['x'] = ((ang_vel_pqr['r'])*(vel_uvw['y'])) - ((ang_vel_pqr['q'])*(vel_uvw['z'])) + (force_xyz['x'])/(mass);
     acc_uvw['y'] = ((ang_vel_pqr['p'])*(vel_uvw['z'])) - ((ang_vel_pqr['r'])*(vel_uvw['x'])) + (force_xyz['y'])/(mass);
@@ -47,14 +48,20 @@ function he_sim_forces_torques(
     weight_ned['n'] = 0;
     weight_ned['e'] = 0;
     weight_ned['d'] = (uav_model.mass) * (g);
-    he_sim_utils_quat_vec_frame_rotation_ned_to_xyz((quat), (weight_ned), (weight_xyz));
+    utils.utils_quat_vec_frame_rotation_ned_to_xyz((quat), (weight_ned), (weight_xyz));
 
     prop_force_component_x = (0.5) * (rho) * (uav_model.S_prop) * (uav_model.C_arr.prop) * 
         ( (Math.pow(( (uav_model.k_motor) * (delta_vector.throttle) ), 2)) - (Math.pow((V_a), 2)) );
     long_aero_force_component_x = (0.5) * (rho) * Math.pow( (V_a), 2) * (uav_model.S) * 
         (
-            (he_sim_utils_C_X(alpha, uav_model.C_arr)) + 
-            ((he_sim_utils_C_X_q(alpha, C_arr))*(uav_model.c) * (ang_vel_pqr.q)/(2 * (V_a))) +
-            ((delta_vector.elevator) * (he_sim_utils_C_X_delta_e(alpha, uav_model.C_arr)))
+            (utils.utils_C_X(alpha, uav_model.C_arr)) + 
+            ((utils.utils_C_X_q(alpha, C_arr))*(uav_model.c) * (ang_vel_pqr.q)/(2 * (V_a))) +
+            ((delta_vector.elevator) * (utils.utils_C_X_delta_e(alpha, uav_model.C_arr)))
         );
 }
+
+module.exports = 
+    {
+        he_sim_nlom,
+        he_sim_forces_torques
+    };
