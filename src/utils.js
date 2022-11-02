@@ -24,9 +24,9 @@ function utils_euler_to_quat(euler, quat) {
     psi_2 = (euler['2'])/2;
 
     quat['0'] = (Math.cos(psi_2))*(Math.cos(theta_2))*(Math.cos(phi_2)) + (Math.sin(psi_2))*(Math.sin(theta_2))*(Math.sin(phi_2));
-    quat['1'] = (Math.cos(psi_2))*(Math.cos(theta_2))*(Math.sin(phi_2)) + (Math.sin(psi_2))*(Math.sin(theta_2))*(Math.cos(phi_2));
+    quat['1'] = (Math.cos(psi_2))*(Math.cos(theta_2))*(Math.sin(phi_2)) - (Math.sin(psi_2))*(Math.sin(theta_2))*(Math.cos(phi_2));
     quat['2'] = (Math.cos(psi_2))*(Math.sin(theta_2))*(Math.cos(phi_2)) + (Math.sin(psi_2))*(Math.cos(theta_2))*(Math.sin(phi_2));
-    quat['3'] = (Math.sin(psi_2))*(Math.cos(theta_2))*(Math.cos(phi_2)) + (Math.cos(psi_2))*(Math.sin(theta_2))*(Math.sin(phi_2));
+    quat['3'] = (Math.sin(psi_2))*(Math.cos(theta_2))*(Math.cos(phi_2)) - (Math.cos(psi_2))*(Math.sin(theta_2))*(Math.sin(phi_2));
 }
 
 function utils_quat_vec_frame_rotation_xyz_to_ned(quat, vec_xyz, vec_ned) {
