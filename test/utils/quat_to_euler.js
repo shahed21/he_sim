@@ -60,11 +60,11 @@ function quat_to_euler(he_sim) {
     quat_exp ['3'] = -0.204040;
 
     he_sim.utils_euler_to_quat(euler, quat);
-    console.log(quat[0]);
-    console.log(quat[1]);
-    console.log(quat[2]);
-    console.log(quat[3]);
-    console.log('------')
+    // console.log(quat[0]);
+    // console.log(quat[1]);
+    // console.log(quat[2]);
+    // console.log(quat[3]);
+    // console.log('------')
     assert(quat['0']<((quat_exp['0'])+(0.00001)));
     assert(quat['0']>((quat_exp['0'])-(0.00001)));
     assert(quat['1']<((quat_exp['1'])+(0.00001)));
@@ -75,10 +75,10 @@ function quat_to_euler(he_sim) {
     assert(quat['3']>((quat_exp['3'])-(0.00001)));
 
     he_sim.utils_quat_to_euler(quat, euler);
-    console.log(euler['0']);
-    console.log(euler['1']);
-    console.log(euler['2']);
-    console.log('------')
+    // console.log(euler['0']);
+    // console.log(euler['1']);
+    // console.log(euler['2']);
+    // console.log('------')
     assert(euler['0']<((euler_exp['0'])+(0.00001)));
     assert(euler['0']>((euler_exp['0'])-(0.00001)));
     assert(euler['1']<((euler_exp['1'])+(0.00001)));
@@ -87,11 +87,11 @@ function quat_to_euler(he_sim) {
     assert(euler['2']>((euler_exp['2'])-(0.00001)));
 
     he_sim.utils_euler_to_quat(euler, quat);
-    console.log(quat[0]);
-    console.log(quat[1]);
-    console.log(quat[2]);
-    console.log(quat[3]);
-    console.log('------')
+    // console.log(quat[0]);
+    // console.log(quat[1]);
+    // console.log(quat[2]);
+    // console.log(quat[3]);
+    // console.log('------')
     assert(quat['0']<((quat_exp['0'])+(0.00001)));
     assert(quat['0']>((quat_exp['0'])-(0.00001)));
     assert(quat['1']<((quat_exp['1'])+(0.00001)));
@@ -102,10 +102,10 @@ function quat_to_euler(he_sim) {
     assert(quat['3']>((quat_exp['3'])-(0.00001)));
 
     he_sim.utils_quat_to_euler(quat, euler);
-    console.log(euler['0']);
-    console.log(euler['1']);
-    console.log(euler['2']);
-    console.log('------')
+    // console.log(euler['0']);
+    // console.log(euler['1']);
+    // console.log(euler['2']);
+    // console.log('------')
     assert(euler['0']<((euler_exp['0'])+(0.00001)));
     assert(euler['0']>((euler_exp['0'])-(0.00001)));
     assert(euler['1']<((euler_exp['1'])+(0.00001)));
@@ -114,11 +114,11 @@ function quat_to_euler(he_sim) {
     assert(euler['2']>((euler_exp['2'])-(0.00001)));
 
     he_sim.utils_euler_to_quat(euler, quat);
-    console.log(quat[0]);
-    console.log(quat[1]);
-    console.log(quat[2]);
-    console.log(quat[3]);
-    console.log('------')
+    // console.log(quat[0]);
+    // console.log(quat[1]);
+    // console.log(quat[2]);
+    // console.log(quat[3]);
+    // console.log('------')
     assert(quat['0']<((quat_exp['0'])+(0.00001)));
     assert(quat['0']>((quat_exp['0'])-(0.00001)));
     assert(quat['1']<((quat_exp['1'])+(0.00001)));
@@ -129,10 +129,10 @@ function quat_to_euler(he_sim) {
     assert(quat['3']>((quat_exp['3'])-(0.00001)));
 
     he_sim.utils_quat_to_euler(quat, euler);
-    console.log(euler['0']);
-    console.log(euler['1']);
-    console.log(euler['2']);
-    console.log('------')
+    // console.log(euler['0']);
+    // console.log(euler['1']);
+    // console.log(euler['2']);
+    // console.log('------')
     assert(euler['0']<((euler_exp['0'])+(0.00001)));
     assert(euler['0']>((euler_exp['0'])-(0.00001)));
     assert(euler['1']<((euler_exp['1'])+(0.00001)));
@@ -141,11 +141,11 @@ function quat_to_euler(he_sim) {
     assert(euler['2']>((euler_exp['2'])-(0.00001)));
 
     he_sim.utils_euler_to_quat(euler, quat);
-    console.log(quat[0]);
-    console.log(quat[1]);
-    console.log(quat[2]);
-    console.log(quat[3]);
-    console.log('------')
+    // console.log(quat[0]);
+    // console.log(quat[1]);
+    // console.log(quat[2]);
+    // console.log(quat[3]);
+    // console.log('------')
     assert(quat['0']<((quat_exp['0'])+(0.00001)));
     assert(quat['0']>((quat_exp['0'])-(0.00001)));
     assert(quat['1']<((quat_exp['1'])+(0.00001)));
@@ -156,10 +156,10 @@ function quat_to_euler(he_sim) {
     assert(quat['3']>((quat_exp['3'])-(0.00001)));
 
     he_sim.utils_quat_to_euler(quat, euler);
-    console.log(euler['0']);
-    console.log(euler['1']);
-    console.log(euler['2']);
-    console.log('------')
+    // console.log(euler['0']);
+    // console.log(euler['1']);
+    // console.log(euler['2']);
+    // console.log('------')
     assert(euler['0']<((euler_exp['0'])+(0.00001)));
     assert(euler['0']>((euler_exp['0'])-(0.00001)));
     assert(euler['1']<((euler_exp['1'])+(0.00001)));
@@ -168,11 +168,11 @@ function quat_to_euler(he_sim) {
     assert(euler['2']>((euler_exp['2'])-(0.00001)));
 
     he_sim.utils_euler_to_quat(euler, quat);
-    console.log(quat[0]);
-    console.log(quat[1]);
-    console.log(quat[2]);
-    console.log(quat[3]);
-    console.log('------')
+    // console.log(quat[0]);
+    // console.log(quat[1]);
+    // console.log(quat[2]);
+    // console.log(quat[3]);
+    // console.log('------')
     assert(quat['0']<((quat_exp['0'])+(0.00001)));
     assert(quat['0']>((quat_exp['0'])-(0.00001)));
     assert(quat['1']<((quat_exp['1'])+(0.00001)));
