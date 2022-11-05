@@ -1,4 +1,4 @@
-function vec_xyz = quat_vec_frame_rotation_ned_to_xyz(quat, vec_ned) {
+function vec_xyz = quat_vec_frame_rotation_ned_to_xyz(quat, vec_ned)
     vec_xyz = zeros(3,1);
 
     vec_xyz(1) = ...
@@ -15,4 +15,4 @@ function vec_xyz = quat_vec_frame_rotation_ned_to_xyz(quat, vec_ned) {
         vec_ned(1) * ((quat(2))*(quat(4))+(quat(1))*(quat(3))) * 2 ...
         + vec_ned(2) * ((quat(4))*(quat(3))-(quat(1))*(quat(2))) * 2 ...
         + vec_ned(3) * ((quat(4))*(quat(4))+(quat(1))*(quat(1))-(quat(2))*(quat(2))-(quat(3))*(quat(3)));
-}
+end
