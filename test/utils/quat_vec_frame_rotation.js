@@ -93,6 +93,81 @@ function quat_vec_frame_rotation(he_sim) {
     runtest(he_sim, euler_init, quat, vec_ned, vec_xyz, vec_ned_exp, vec_xyz_exp, epsilon);
 
 
+    euler_init['0'] = 45  * Math.PI /180;
+    euler_init['1'] = 0  * Math.PI /180;
+    euler_init['2'] = 45 * Math.PI /180;
+
+    vec_xyz['x'] = 0;
+    vec_xyz['y'] = 0;
+    vec_xyz['z'] = 1;
+
+    vec_ned_exp['n'] = 0.5;
+    vec_ned_exp['e'] = -(0.5);
+    vec_ned_exp['d'] = Math.sqrt(2)/2;
+
+    vec_xyz_exp['x'] = 0;
+    vec_xyz_exp['y'] = 0;
+    vec_xyz_exp['z'] = 1;
+
+    runtest(he_sim, euler_init, quat, vec_ned, vec_xyz, vec_ned_exp, vec_xyz_exp, epsilon);
+
+
+    euler_init['0'] = 45  * Math.PI /180;
+    euler_init['1'] = 0  * Math.PI /180;
+    euler_init['2'] = 0 * Math.PI /180;
+
+    vec_xyz['x'] = 0;
+    vec_xyz['y'] = 0;
+    vec_xyz['z'] = 1;
+
+    vec_ned_exp['n'] = 0;
+    vec_ned_exp['e'] = -(Math.sqrt(2)/2);
+    vec_ned_exp['d'] = Math.sqrt(2)/2;
+
+    vec_xyz_exp['x'] = 0;
+    vec_xyz_exp['y'] = 0;
+    vec_xyz_exp['z'] = 1;
+
+    runtest(he_sim, euler_init, quat, vec_ned, vec_xyz, vec_ned_exp, vec_xyz_exp, epsilon);
+
+
+    euler_init['0'] = 0  * Math.PI /180;
+    euler_init['1'] = 45  * Math.PI /180;
+    euler_init['2'] = 0 * Math.PI /180;
+
+    vec_xyz['x'] = 0;
+    vec_xyz['y'] = 0;
+    vec_xyz['z'] = 1;
+
+    vec_ned_exp['n'] = Math.sqrt(2)/2;
+    vec_ned_exp['e'] = 0;
+    vec_ned_exp['d'] = Math.sqrt(2)/2;
+
+    vec_xyz_exp['x'] = 0;
+    vec_xyz_exp['y'] = 0;
+    vec_xyz_exp['z'] = 1;
+
+    runtest(he_sim, euler_init, quat, vec_ned, vec_xyz, vec_ned_exp, vec_xyz_exp, epsilon);
+
+
+    euler_init['0'] = 0  * Math.PI /180;
+    euler_init['1'] = 45  * Math.PI /180;
+    euler_init['2'] = 0 * Math.PI /180;
+
+    vec_xyz['x'] = 1;
+    vec_xyz['y'] = 0;
+    vec_xyz['z'] = 0;
+
+    vec_ned_exp['n'] = Math.sqrt(2)/2;
+    vec_ned_exp['e'] = 0;
+    vec_ned_exp['d'] = -(Math.sqrt(2)/2);
+
+    vec_xyz_exp['x'] = 1;
+    vec_xyz_exp['y'] = 0;
+    vec_xyz_exp['z'] = 0;
+
+    runtest(he_sim, euler_init, quat, vec_ned, vec_xyz, vec_ned_exp, vec_xyz_exp, epsilon);
+
 }
 
 module.exports = {
