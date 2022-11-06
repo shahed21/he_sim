@@ -64,6 +64,7 @@ function utils_quat_vec_frame_rotation_ned_to_xyz(quat, vec_ned, vec_xyz) {
 }
 
 function utils_C_X(alpha, C_arr) {
+    //TODO Optimize this with Z
     const C_D =  (C_arr.D_0) + (C_arr.D_alpha) * (alpha);
     const C_L =  (C_arr.L_0) + (C_arr.L_alpha) * (alpha);
     const retVal = -(C_D) * (Math.cos(alpha)) + (C_L) * (Math.sin(alpha));
@@ -80,6 +81,24 @@ function utils_C_X_delta_e(alpha, C_arr) {
     return retVal;
 }
 
+function utils_C_Z(alpha, C_arr) {
+    //TODO Optimize this with X
+    const C_D =  (C_arr.D_0) + (C_arr.D_alpha) * (alpha);
+    const C_L =  (C_arr.L_0) + (C_arr.L_alpha) * (alpha);
+    const retVal = -(C_D) * (Math.sin(alpha)) - (C_L) * (Math.cos(alpha));
+    return retVal;
+}
+
+function utils_C_Z_q(alpha, C_arr) {
+    const retVal = -(C_arr.D_q) * (Math.sin(alpha)) - (C_arr.L_q) * (Math.cos(alpha));
+    return retVal;
+}
+
+function utils_C_Z_delta_e(alpha, C_arr) {
+    const retVal = -(C_arr.D_delta_e) * (Math.sin(alpha)) - (C_arr.L_delta_e) * (Math.cos(alpha));
+    return retVal;
+}
+
 module.exports = 
     {
         utils_calculateRhoVector,
@@ -89,5 +108,8 @@ module.exports =
         utils_quat_vec_frame_rotation_ned_to_xyz,
         utils_C_X,
         utils_C_X_q,
-        utils_C_X_delta_e
+        utils_C_X_delta_e,
+        utils_C_Z,
+        utils_C_Z_q,
+        utils_C_Z_delta_e
     };
