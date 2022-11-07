@@ -99,6 +99,32 @@ function utils_C_Z_delta_e(alpha, C_arr) {
     return retVal;
 }
 
+function initialize_cvt(ivt, cvt, uav_param_config) {
+    cvt.airframe_model_index = ivt.airframe_model_index;
+    cvt.pos_lla.Lat = ivt.pos_lla.Lat;
+    cvt.pos_lla.Lon = ivt.pos_lla.Lon;
+    cvt.pos_lla.Alt = ivt.pos_lla.Alt;
+
+    utils_euler_to_quat(ivt.euler, cvt.quat);
+    cvt.J_vector = uav_param_config.uavs[cvt.airframe_model_index].J_vector;
+    utils_calculateRhoVector(cvt.J_vector, cvt.Rho_vector);
+    // console.log(cvt.Rho_vector);
+}
+
+function update_delta_vector(cvt) {
+    const maxInt = 32767;
+    cvt.delta_vector.aeleron = (cvt.rc.axis[0])/(maxInt);
+    cvt.delta_vector.elevator = -(cvt.rc.axis[4])/(maxInt);
+    cvt.delta_vector.rudder = -(cvt.rc.axis[3])/(maxInt);
+    cvt.delta_vector.throttle = ((cvt.rc.axis[2])+(maxInt))/((maxInt)*(2));
+
+    // console.log(cvt.delta_vector);
+}
+
+function update_cvt(cvt) {
+    update_delta_vector(cvt);
+}
+
 module.exports = 
     {
         utils_calculateRhoVector,
@@ -111,5 +137,7 @@ module.exports =
         utils_C_X_delta_e,
         utils_C_Z,
         utils_C_Z_q,
-        utils_C_Z_delta_e
+        utils_C_Z_delta_e,
+        initialize_cvt,
+        update_cvt
     };
