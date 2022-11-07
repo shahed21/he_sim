@@ -1,6 +1,5 @@
-const he_sim = require('./he_sim');
-
 function runge_kutta_4(
+    he_sim,
     force_xyz,       //user input
     torque_lmn,      //user input
     h_step_size,     //user input

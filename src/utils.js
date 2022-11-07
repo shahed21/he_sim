@@ -99,6 +99,24 @@ function utils_C_Z_delta_e(alpha, C_arr) {
     return retVal;
 }
 
+// TODO add AWGN from gust_sigma
+function calculate_wind(cvt) {
+    cvt.wind_ned.n = ivt.wind.n;
+    cvt.wind_ned.e = ivt.wind.e;
+    cvt.wind_ned.d = ivt.wind.d;
+    utils_quat_vec_frame_rotation_ned_to_xyz(cvt.quat, cvt.wind_ned, cvt.wind_xyz);
+}
+
+function calculate_airspeed(cvt) {
+    cvt.V_a_xyz.x = cvt.vel_uvw.x - cvt.wind_xyz.x;
+    cvt.V_a_xyz.y = cvt.vel_uvw.y - cvt.wind_xyz.y;
+    cvt.V_a_xyz.z = cvt.vel_uvw.z - cvt.wind_xyz.z;
+
+    cvt.V_a = Math.sqrt(pow((cvt.V_a_xyz.x),2)+pow((cvt.V_a_xyz.y),2)+pow((cvt.V_a_xyz.z),2));
+    cvt.alpha = Math.atan2((cvt.V_a_xyz.z), (cvt.V_a_xyz.x));
+    cvt.beta = Math.asin((cvt.V_a_xyz.y)/ (cvt.V_a));
+}
+
 function initialize_cvt(ivt, cvt, uav_param_config) {
     cvt.airframe_model_index = ivt.airframe_model_index;
     cvt.pos_lla.Lat = ivt.pos_lla.Lat;
@@ -121,8 +139,10 @@ function update_delta_vector(cvt) {
     // console.log(cvt.delta_vector);
 }
 
-function update_cvt(cvt) {
+function update_cvt(ivt, cvt) {
     update_delta_vector(cvt);
+    calculate_wind(ivt, cvt);
+    calculate_airspeed(cvt);
 }
 
 module.exports = 

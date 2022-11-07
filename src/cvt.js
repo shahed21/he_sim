@@ -1,14 +1,24 @@
 const ivt = {
     airframe_model_index: 0,
     pos_lla: {
-        Lat: 0,
-        Lon: 0,
-        Alt: 0
+        Lat: 29.031593,
+        Lon: -95.326181,
+        Alt: 100
     },
     euler: {
         '0': 0,
         '1': 0,
         '2': 0
+    },
+    wind: {
+        n: 0,
+        e: 0,
+        d: 0
+    },
+    gust_sigma: {
+        n: 0,
+        e: 0,
+        d: 0
     }
 }
 const cvt = {
@@ -70,6 +80,21 @@ const cvt = {
         p: 0,
         q: 0,
         r: 0
+    },
+    wind_ned: {
+        n: 0,
+        e: 0,
+        d: 0
+    },
+    wind_xyz: {
+        x: 0,
+        y: 0,
+        z: 0
+    },
+    V_a_xyz: {
+        x: 0,
+        y: 0,
+        z: 0
     },
     V_a: 0,      
     alpha: 0,    
