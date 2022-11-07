@@ -1,13 +1,17 @@
 const {uav_param_config, g, rho} = require('@shahed21/uav_params');
 const rc = require('./rc_controller');
 const {ivt, cvt} = require('./cvt');
+const {svt} = require('./svt.js');
 const utils = require('./utils');
 const he_sim = require('./he_sim');
 const rk4 = require('./runge_kutta');
+const stream = require('./stream')
 
 function setup() {
     utils.initialize_cvt(ivt, cvt, uav_param_config);
-    rc.setup_rc_controller(cvt.rc);    
+    rc.setup_rc_controller(cvt.rc);
+    // console.log(svt);
+    stream.setupServer(svt);
 }
 
 
@@ -36,7 +40,7 @@ function loop() {
         cvt.pos_ned,
         cvt.vel_uvw,
         cvt.ang_vel_pqr,
-        vt.quat,
+        cvt.quat,
         cvt.vel_ned,
         cvt.acc_uvw,
         cvt.quat_dot,
@@ -46,6 +50,8 @@ function loop() {
         cvt.quat,
         cvt.ang_vel_pqr
     );
+
+    utils.update_svt(cvt, svt);
 }
 
 setup();

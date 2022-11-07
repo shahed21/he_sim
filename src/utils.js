@@ -100,7 +100,7 @@ function utils_C_Z_delta_e(alpha, C_arr) {
 }
 
 // TODO add AWGN from gust_sigma
-function calculate_wind(cvt) {
+function calculate_wind(ivt, cvt) {
     cvt.wind_ned.n = ivt.wind.n;
     cvt.wind_ned.e = ivt.wind.e;
     cvt.wind_ned.d = ivt.wind.d;
@@ -112,7 +112,7 @@ function calculate_airspeed(cvt) {
     cvt.V_a_xyz.y = cvt.vel_uvw.y - cvt.wind_xyz.y;
     cvt.V_a_xyz.z = cvt.vel_uvw.z - cvt.wind_xyz.z;
 
-    cvt.V_a = Math.sqrt(pow((cvt.V_a_xyz.x),2)+pow((cvt.V_a_xyz.y),2)+pow((cvt.V_a_xyz.z),2));
+    cvt.V_a = Math.sqrt(Math.pow((cvt.V_a_xyz.x),2)+Math.pow((cvt.V_a_xyz.y),2)+Math.pow((cvt.V_a_xyz.z),2));
     cvt.alpha = Math.atan2((cvt.V_a_xyz.z), (cvt.V_a_xyz.x));
     cvt.beta = Math.asin((cvt.V_a_xyz.y)/ (cvt.V_a));
 }
@@ -145,6 +145,62 @@ function update_cvt(ivt, cvt) {
     calculate_airspeed(cvt);
 }
 
+function update_svt(cvt, svt) {
+    euler = {};
+    utils_quat_to_euler(cvt.quat, euler);
+    // console.log(cvt.pos_lla.Lat);
+    // console.log(svt['Lat']);
+
+    svt['Lat']                           = cvt.pos_lla.Lat;
+    svt['Lon']                           = cvt.pos_lla.Lon;
+
+    svt['Alt_meters']                    = cvt.pos_lla.Alt;
+    svt['Alt_feet']                      = (3.28084)*(cvt.pos_lla.Alt);
+    svt['Alt_yards']                     = (svt['Alt_feet'])/3;
+
+    svt['rollDegrees']                   = euler['0']*180/Math.PI;  // TODO this needs a filter
+    svt['pitchDegrees']                  = euler['1']*180/Math.PI;  // TODO this needs a filter
+    svt['headingDegrees']                = euler['2']*180/Math.PI;  // TODO this needs a filter
+
+    svt['filtered_airspeed_mps']         = cvt.V_a;
+    svt['filtered_airspeed_knots']       = (1.943844)*cvt.V_a;
+    svt['filtered_airspeed_mph']         = (3.6)     *cvt.V_a;
+    svt['filtered_airspeed_kph']         = (2.236936)*cvt.V_a;
+
+    svt['filtered_groundspeed_mps']      = Math.sqrt((Math.pow(cvt.vel_ned.n,2) + Math.pow(cvt.vel_ned.e,2)));
+    svt['filtered_groundspeed_knots']    = (1.943844)*(svt['filtered_groundspeed_mps']);
+    svt['filtered_groundspeed_mph']      = (3.6)*(svt['filtered_groundspeed_mps']);
+    svt['filtered_groundspeed_kph']      = (2.236936)*(svt['filtered_groundspeed_mps']);
+
+    svt['filtered_windspeed_mps']        = Math.sqrt(Math.pow(cvt.wind_ned.n,2) + Math.pow(cvt.wind_ned.e,2) + Math.pow(cvt.wind_ned.d,2));
+    svt['filtered_windspeed_knots']      = (1.943844)* (svt['filtered_windspeed_mps']);
+    svt['filtered_windspeed_mph']        = (3.6)     * (svt['filtered_windspeed_mps']);
+    svt['filtered_windspeed_kph']        = (2.236936)* (svt['filtered_windspeed_mps']);
+
+    svt['filtered_winddir_deg']          = 0;
+    svt['filtered_winddir_rad']          = 0;
+
+    svt['filtered_groundtrackdir_deg']   = 0;
+    svt['filtered_groundtrackdir_rad']   = 0;
+
+    svt['vel_d_mps']                     = cvt.vel_ned.d;
+    svt['vel_d_fps']                     = (3.28084)*(cvt.vel_ned.d);
+
+    svt['filtered_alpha_deg']            = (cvt.alpha) * 180 / Math.PI;
+    svt['filtered_alpha_rad']            = (cvt.alpha);
+
+    svt['filtered_beta_deg']             = (cvt.beta) * 180 / Math.PI;
+    svt['filtered_beta_rad']             = (cvt.beta);
+
+    svt['vel_x']                         = cvt.vel_uvw.x;
+    svt['vel_y']                         = cvt.vel_uvw.y;
+    svt['vel_z']                         = cvt.vel_uvw.z;
+
+
+    svt.Time = Date.now();
+    // console.log(svt.Time);
+}
+
 module.exports = 
     {
         utils_calculateRhoVector,
@@ -159,5 +215,6 @@ module.exports =
         utils_C_Z_q,
         utils_C_Z_delta_e,
         initialize_cvt,
-        update_cvt
+        update_cvt,
+        update_svt
     };

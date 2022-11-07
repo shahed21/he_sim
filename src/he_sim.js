@@ -80,7 +80,7 @@ function he_sim_forces_torques(
     const long_aero_force_component_z = kientic_force * 
     (
         (utils.utils_C_Z(alpha, C)) +
-        ((utils.utils_C_Z_q(alpha, C_arr)) * (ang_vel_pqr.q) * c_2_Va) +
+        ((utils.utils_C_Z_q(alpha, C)) * (ang_vel_pqr.q) * c_2_Va) +
         ((delta_vector.elevator) * (utils.utils_C_Z_delta_e(alpha, C)))
     );
 
