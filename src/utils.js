@@ -1,3 +1,5 @@
+var timestamp = require('internet-timestamp');
+
 function utils_calculateRhoVector(J_vector, Rho_vector) {
     Rho_vector['prime'] = (J_vector['x'])*(J_vector['z']) - (J_vector['xz'])*(J_vector['xz']);
     Rho_vector['1'] = ((J_vector['xz'])*((J_vector['x'])-(J_vector['y'])+(J_vector['z'])))/(Rho_vector['prime']);
@@ -197,7 +199,8 @@ function update_svt(cvt, svt) {
     svt['vel_z']                         = cvt.vel_uvw.z;
 
 
-    svt.Time = Date.now();
+    const timenow = Date.now();
+    svt.Time = timestamp(timenow);
     // console.log(svt.Time);
 }
 
