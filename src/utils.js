@@ -1,4 +1,5 @@
-var timestamp = require('internet-timestamp');
+// var timestamp = require('internet-timestamp');
+// var iso = require('to-iso-string');
 
 function utils_calculateRhoVector(J_vector, Rho_vector) {
     Rho_vector['prime'] = (J_vector['x'])*(J_vector['z']) - (J_vector['xz'])*(J_vector['xz']);
@@ -153,54 +154,54 @@ function update_svt(cvt, svt) {
     // console.log(cvt.pos_lla.Lat);
     // console.log(svt['Lat']);
 
-    svt['Lat']                           = cvt.pos_lla.Lat;
-    svt['Lon']                           = cvt.pos_lla.Lon;
+    svt.Lat                           = cvt.pos_lla.Lat;
+    svt.Lon                           = cvt.pos_lla.Lon;
 
-    svt['Alt_meters']                    = cvt.pos_lla.Alt;
-    svt['Alt_feet']                      = (3.28084)*(cvt.pos_lla.Alt);
-    svt['Alt_yards']                     = (svt['Alt_feet'])/3;
+    svt.Alt_meters                    = cvt.pos_lla.Alt;
+    svt.Alt_feet                      = (3.28084)*(cvt.pos_lla.Alt);
+    svt.Alt_yards                     = (svt.Alt_feet)/3;
 
-    svt['rollDegrees']                   = euler['0']*180/Math.PI;  // TODO this needs a filter
-    svt['pitchDegrees']                  = euler['1']*180/Math.PI;  // TODO this needs a filter
-    svt['headingDegrees']                = euler['2']*180/Math.PI;  // TODO this needs a filter
+    svt.rollDegrees                   = euler['0']*180/Math.PI;  // TODO this needs a filter
+    svt.pitchDegrees                  = euler['1']*180/Math.PI;  // TODO this needs a filter
+    svt.headingDegrees                = euler['2']*180/Math.PI;  // TODO this needs a filter
 
-    svt['filtered_airspeed_mps']         = cvt.V_a;
-    svt['filtered_airspeed_knots']       = (1.943844)*cvt.V_a;
-    svt['filtered_airspeed_mph']         = (3.6)     *cvt.V_a;
-    svt['filtered_airspeed_kph']         = (2.236936)*cvt.V_a;
+    svt.filtered_airspeed_mps         = cvt.V_a;
+    svt.filtered_airspeed_knots       = (1.943844)*cvt.V_a;
+    svt.filtered_airspeed_mph         = (3.6)     *cvt.V_a;
+    svt.filtered_airspeed_kph         = (2.236936)*cvt.V_a;
 
-    svt['filtered_groundspeed_mps']      = Math.sqrt((Math.pow(cvt.vel_ned.n,2) + Math.pow(cvt.vel_ned.e,2)));
-    svt['filtered_groundspeed_knots']    = (1.943844)*(svt['filtered_groundspeed_mps']);
-    svt['filtered_groundspeed_mph']      = (3.6)*(svt['filtered_groundspeed_mps']);
-    svt['filtered_groundspeed_kph']      = (2.236936)*(svt['filtered_groundspeed_mps']);
+    svt.filtered_groundspeed_mps      = Math.sqrt((Math.pow(cvt.vel_ned.n,2) + Math.pow(cvt.vel_ned.e,2)));
+    svt.filtered_groundspeed_knots    = (1.943844)*(svt.filtered_groundspeed_mps);
+    svt.filtered_groundspeed_mph      = (3.6)*(svt.filtered_groundspeed_mps);
+    svt.filtered_groundspeed_kph      = (2.236936)*(svt.filtered_groundspeed_mps);
 
-    svt['filtered_windspeed_mps']        = Math.sqrt(Math.pow(cvt.wind_ned.n,2) + Math.pow(cvt.wind_ned.e,2) + Math.pow(cvt.wind_ned.d,2));
-    svt['filtered_windspeed_knots']      = (1.943844)* (svt['filtered_windspeed_mps']);
-    svt['filtered_windspeed_mph']        = (3.6)     * (svt['filtered_windspeed_mps']);
-    svt['filtered_windspeed_kph']        = (2.236936)* (svt['filtered_windspeed_mps']);
+    svt.filtered_windspeed_mps        = Math.sqrt(Math.pow(cvt.wind_ned.n,2) + Math.pow(cvt.wind_ned.e,2) + Math.pow(cvt.wind_ned.d,2));
+    svt.filtered_windspeed_knots      = (1.943844)* (svt.filtered_windspeed_mps);
+    svt.filtered_windspeed_mph        = (3.6)     * (svt.filtered_windspeed_mps);
+    svt.filtered_windspeed_kph        = (2.236936)* (svt.filtered_windspeed_mps);
 
-    svt['filtered_winddir_deg']          = 0;
-    svt['filtered_winddir_rad']          = 0;
+    svt.filtered_winddir_deg          = 0;
+    svt.filtered_winddir_rad          = 0;
 
-    svt['filtered_groundtrackdir_deg']   = 0;
-    svt['filtered_groundtrackdir_rad']   = 0;
+    svt.filtered_groundtrackdir_deg   = 0;
+    svt.filtered_groundtrackdir_rad   = 0;
 
-    svt['vel_d_mps']                     = cvt.vel_ned.d;
-    svt['vel_d_fps']                     = (3.28084)*(cvt.vel_ned.d);
+    svt.vel_d_mps                     = cvt.vel_ned.d;
+    svt.vel_d_fps                     = (3.28084)*(cvt.vel_ned.d);
 
-    svt['filtered_alpha_deg']            = (cvt.alpha) * 180 / Math.PI;
-    svt['filtered_alpha_rad']            = (cvt.alpha);
+    svt.filtered_alpha_deg            = (cvt.alpha) * 180 / Math.PI;
+    svt.filtered_alpha_rad            = (cvt.alpha);
 
-    svt['filtered_beta_deg']             = (cvt.beta) * 180 / Math.PI;
-    svt['filtered_beta_rad']             = (cvt.beta);
+    svt.filtered_beta_deg             = (cvt.beta) * 180 / Math.PI;
+    svt.filtered_beta_rad             = (cvt.beta);
 
-    svt['vel_x']                         = cvt.vel_uvw.x;
-    svt['vel_y']                         = cvt.vel_uvw.y;
-    svt['vel_z']                         = cvt.vel_uvw.z;
+    svt.vel_x                         = cvt.vel_uvw.x;
+    svt.vel_y                         = cvt.vel_uvw.y;
+    svt.vel_z                         = cvt.vel_uvw.z;
 
-
-    const timenow = Date.now();
-    svt.Time = timestamp(timenow);
+    const timenow = new Date();
+    // svt.Time = iso(timenow);
+    svt.Time = timenow.toISOString();
     // console.log(svt.Time);
 }
 
