@@ -4,7 +4,8 @@
   "description": "Hawk Eye Simulator",
   "main": "index.js",
   "scripts": {
-    "test": "node test/test.js"
+    "test": "node test/test.js",
+    "sim": "node src/run_sim.js"
   },
   "author": "Shahed Rahim",
   "license": "ISC",
@@ -15,6 +16,7 @@
   ],
   "dependencies": {
     "@shahed21/uav_params": "file:../uav_params",
-    "assert": "^2.0.0"
+    "assert": "^2.0.0",
+    "linux-joystick": "^1.0.2"
   }
 }
