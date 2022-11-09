@@ -17,6 +17,8 @@ function setup() {
 
 function loop() {
     utils.update_cvt(ivt, cvt);
+    // console.log('----------------------loop----------------------')
+    // console.log(`1. quat0: ${cvt.quat['0']}`);
     he_sim.he_sim_forces_torques(
         cvt.airframe_model_index,
         cvt.delta_vector,
@@ -28,6 +30,13 @@ function loop() {
         cvt.force_xyz,
         cvt.torque_lmn
     );
+    // console.log(`2. aeleron: ${cvt.delta_vector.aeleron}`);
+    // console.log(`force_x: ${cvt.force_xyz.x}`);
+    // console.log(`force_y: ${cvt.force_xyz.y}`);
+    // console.log(`force_z: ${cvt.force_xyz.z}`);
+    // console.log(`torque_l: ${cvt.torque_lmn.l}`);
+    // console.log(`torque_m: ${cvt.torque_lmn.m}`);
+    // console.log(`torque_n: ${cvt.torque_lmn.n}`);
 
     rk4.runge_kutta_4(
         he_sim,
@@ -51,10 +60,13 @@ function loop() {
         cvt.ang_vel_pqr
     );
 
+    // console.log(`pos_n: ${cvt.pos_ned.n}`);
+
     utils.update_svt(cvt, svt);
 }
 
 setup();
 const interval = setInterval(loop, 4);
 // clearInterval(interval);
-// setTimeout(update_cvt, 4);
+// loop();
+// loop();

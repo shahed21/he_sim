@@ -43,6 +43,7 @@ function he_sim_forces_torques(
     torque_lmn            //system output
 ) {
     const uav_model = uav_param_config.uavs[(airframe_model_index)];
+    const V_s = uav_model.V_s;
     const kientic_force = (0.5) * (rho) * Math.pow( (V_a), 2) * (uav_model.S);
     const weight_xyz = {};
     const weight_ned = {};
@@ -53,10 +54,15 @@ function he_sim_forces_torques(
     weight_ned['e'] = 0;
     weight_ned['d'] = (uav_model.mass) * (g);
     utils.utils_quat_vec_frame_rotation_ned_to_xyz((quat), (weight_ned), (weight_xyz));
+    // console.log(`quat0: ${quat['0']}`);
+    // console.log(weight_ned);
+    // console.log(weight_xyz);
 
     const prop_force_component_x = (0.5) * (rho) * (uav_model.S_prop) * (C.prop) * 
         ( (Math.pow(( (uav_model.k_motor) * (delta_vector.throttle) ), 2)) - (Math.pow((V_a), 2)) );
-    
+
+    // console.log(prop_force_component_x);
+
     const long_aero_force_component_x = kientic_force * 
         (
             (utils.utils_C_X(alpha, C)) + 
@@ -64,7 +70,6 @@ function he_sim_forces_torques(
             ((delta_vector.elevator) * (utils.utils_C_X_delta_e(alpha, C)))
         );
 
-    force_xyz.x = (weight_xyz.x) + (long_aero_force_component_x) + (prop_force_component_x);
 
     const long_aero_force_component_y = kientic_force * 
     (
@@ -75,8 +80,6 @@ function he_sim_forces_torques(
         ((C.Y_delta_r) * (delta_vector.rudder))
     );
 
-    force_xyz.y = weight_xyz.y + long_aero_force_component_y;
-
     const long_aero_force_component_z = kientic_force * 
     (
         (utils.utils_C_Z(alpha, C)) +
@@ -84,9 +87,11 @@ function he_sim_forces_torques(
         ((delta_vector.elevator) * (utils.utils_C_Z_delta_e(alpha, C)))
     );
 
-    force_xyz.z = weight_xyz.z + long_aero_force_component_z;
-
-    torque_lmn['l'] = (kientic_force) * (uav_model.b) * 
+    if (V_a > V_s) {
+        force_xyz.x = (weight_xyz.x) + (long_aero_force_component_x) + (prop_force_component_x);
+        force_xyz.y = weight_xyz.y + long_aero_force_component_y;
+        force_xyz.z = weight_xyz.z + long_aero_force_component_z;
+        torque_lmn.l = (kientic_force) * (uav_model.b) * 
         (
             (C.l_0) + 
             ((C.l_beta) * (beta)) +
@@ -96,7 +101,7 @@ function he_sim_forces_torques(
             ((C.l_delta_r) * (delta_vector.rudder))
         ) - ((uav_model.k_T_p) * Math.pow(((uav_model.k_Omega) * (delta_vector.throttle)), 2));
 
-    torque_lmn['n'] = (kientic_force) * (uav_model.c) * 
+        torque_lmn.m = (kientic_force) * (uav_model.c) * 
         (
             (C.m_0) + 
             ((C.m_alpha) * (alpha)) +
@@ -104,7 +109,7 @@ function he_sim_forces_torques(
             ((C.m_delta_e) * (delta_vector.elevator))
         );
         
-    torque_lmn['n'] = (kientic_force) * (uav_model.b) * 
+        torque_lmn.n = (kientic_force) * (uav_model.b) * 
         (
             (C.n_0) + 
             ((C.n_beta) * (beta)) +
@@ -113,6 +118,54 @@ function he_sim_forces_torques(
             ((C.n_delta_a) * (delta_vector.aeleron)) +
             ((C.n_delta_r) * (delta_vector.rudder))
         );
+    } else {
+        force_xyz.x = (weight_xyz.x) + (prop_force_component_x);
+        force_xyz.y = weight_xyz.y;
+        force_xyz.z = weight_xyz.z;
+        torque_lmn.l = (kientic_force) * (uav_model.b) * 
+        (
+            (C.l_0) + 
+            ((C.l_beta) * (beta)) +
+            ((C.l_delta_a) * (delta_vector.aeleron)) +
+            ((C.l_delta_r) * (delta_vector.rudder))
+        ) - ((uav_model.k_T_p) * Math.pow(((uav_model.k_Omega) * (delta_vector.throttle)), 2));
+        // console.log(torque_lmn.l);
+        // console.log(`Cl0: ${(C.l_0)}`);
+        // console.log(`Clbeta * beta: ${(C.l_beta) * (beta)}`);
+        // console.log(`Clbeta: ${(C.l_beta)}`);
+        // console.log(`beta: ${(beta)}`);
+        // console.log(`(C.l_delta_a): ${(C.l_delta_a)}`);
+        // console.log(`(C.l_delta_r): ${(C.l_delta_r)}`);
+        // console.log(`delta_vector.aeleron: ${delta_vector.aeleron}`);
+        // console.log(`delta_vector.rudder: ${delta_vector.rudder}`);
+        // console.log(`uav_model.k_Omega: ${uav_model.k_Omega}`);
+        // console.log(`uav_model.k_T_p: ${uav_model.k_T_p}`);
+        // console.log(`delta_vector.throttle: ${delta_vector.throttle}`);
+
+        torque_lmn.m = (kientic_force) * (uav_model.c) * 
+        (
+            (C.m_0) + 
+            ((C.m_alpha) * (alpha)) +
+            ((C.m_delta_e) * (delta_vector.elevator))
+        );
+        
+        torque_lmn.n = (kientic_force) * (uav_model.b) * 
+        (
+            (C.n_0) + 
+            ((C.n_beta) * (beta)) +
+            ((C.n_delta_a) * (delta_vector.aeleron)) +
+            ((C.n_delta_r) * (delta_vector.rudder))
+        );
+        // console.log(torque_lmn.n);
+        // console.log(`Cn0: ${(C.n_0)}`);
+        // console.log(`Cnbeta * beta: ${(C.n_beta) * (beta)}`);
+        // console.log(`Cnbeta: ${(C.n_beta)}`);
+        // console.log(`beta: ${(beta)}`);
+        // console.log(`(C.n_delta_a): ${(C.n_delta_a)}`);
+        // console.log(`(C.n_delta_r): ${(C.n_delta_r)}`);
+        // console.log(`delta_vector.aeleron: ${delta_vector.aeleron}`);
+        // console.log(`delta_vector.rudder: ${delta_vector.rudder}`);
+    }
 }
 
 function lat_long_to_meters_simple(pos_lla_init, pos_lla, pos_ned) {

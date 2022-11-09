@@ -108,6 +108,7 @@ function calculate_wind(ivt, cvt) {
     cvt.wind_ned.e = ivt.wind.e;
     cvt.wind_ned.d = ivt.wind.d;
     utils_quat_vec_frame_rotation_ned_to_xyz(cvt.quat, cvt.wind_ned, cvt.wind_xyz);
+    // console.log(`0. wind_n: ${cvt.wind_ned.n}  .. wind_x: ${cvt.wind_xyz.x}`);
 }
 
 function calculate_airspeed(cvt) {
@@ -117,7 +118,13 @@ function calculate_airspeed(cvt) {
 
     cvt.V_a = Math.sqrt(Math.pow((cvt.V_a_xyz.x),2)+Math.pow((cvt.V_a_xyz.y),2)+Math.pow((cvt.V_a_xyz.z),2));
     cvt.alpha = Math.atan2((cvt.V_a_xyz.z), (cvt.V_a_xyz.x));
-    cvt.beta = Math.asin((cvt.V_a_xyz.y)/ (cvt.V_a));
+    
+    cvt.beta = ((cvt.V_a)<(Number.EPSILON))? 0 : (Math.asin((cvt.V_a_xyz.y)/ (cvt.V_a)));
+
+    // console.log(`V_a_y: ${cvt.V_a_xyz.y}`);
+    // console.log(`V_a: ${cvt.V_a}`);
+    // console.log(`alpha: ${cvt.alpha}`);
+    // console.log(`beta: ${cvt.beta}`);
 }
 
 function initialize_cvt(ivt, cvt, uav_param_config) {
@@ -127,6 +134,7 @@ function initialize_cvt(ivt, cvt, uav_param_config) {
     cvt.pos_lla.Alt = ivt.pos_lla.Alt;
 
     utils_euler_to_quat(ivt.euler, cvt.quat);
+    // console.log(cvt.quat);
     cvt.J_vector = uav_param_config.uavs[cvt.airframe_model_index].J_vector;
     utils_calculateRhoVector(cvt.J_vector, cvt.Rho_vector);
     // console.log(cvt.Rho_vector);
